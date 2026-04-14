@@ -1,0 +1,25 @@
+import mongoose from "mongoose";
+
+const UserSchema = new mongoose.Schema(
+  {
+    firstName: { type: String, required: true, min: 2, max: 50 },
+    lastName: { type: String, required: true, min: 2, max: 50 },
+    email: { type: String, required: true, max: 50, unique: true },
+    password: { type: String, required: true, min: 5 },
+    profilePicture: { type: String, default: "" },
+    coverPicture: { type: String, default: "" },
+    friends: { type: Array, default: [] },
+    friendRequests: { type: Array, default: [] },
+    sentRequests: { type: Array, default: [] },
+    location: String,
+    occupation: String,
+    viewedProfile: Number,
+    impressions: Number,
+    isAdmin: { type: Boolean, default: false },
+    isBlocked: { type: Boolean, default: false }
+  },
+  { timestamps: true }
+);
+
+const User = mongoose.model("User", UserSchema);
+export default User;
