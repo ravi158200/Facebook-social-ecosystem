@@ -2,6 +2,7 @@ import { useContext, useState, useEffect, useRef } from 'react';
 import { Search, Home, Users, Tv, Store, Bell, MessageCircle, Menu, ShieldCheck, LogOut, User, Settings, HelpCircle, ChevronRight, Gamepad2, MonitorPlay } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
+import Avatar from './Avatar';
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
@@ -33,6 +34,8 @@ const Navbar = () => {
       setActiveSubMenu(null);
     }
   };
+
+  if (!user) return null; // Prevent crash if user context is null during update
 
   return (
     <div ref={navRef} className="flex items-center justify-between px-4 py-2 bg-white shadow-sm sticky top-0 z-50 h-[60px] border-b border-gray-100">
@@ -168,7 +171,12 @@ const Navbar = () => {
 
           <div className="relative group">
             <div onClick={() => toggleMenu('settings')} className={`flex items-center cursor-pointer transition-all hover:opacity-90 ${activeMenu === 'settings' ? 'ring-2 ring-facebookBlue ring-offset-2' : ''} rounded-full`}>
-               <img src={user.profilePicture ? `http://localhost:5000/assets/${user.profilePicture}` : 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'} alt="user" className="w-10 h-10 rounded-full object-cover border border-gray-200" />
+               <Avatar
+                 picturePath={user.profilePicture}
+                 firstName={user.firstName}
+                 lastName={user.lastName}
+                 size={40}
+               />
             </div>
             <div className="absolute bottom-0 right-0 bg-gray-100 rounded-full border border-white p-0.5"><ChevronRight size={10} className="rotate-90"/></div>
 
@@ -177,7 +185,12 @@ const Navbar = () => {
                  {!activeSubMenu ? (
                    <>
                     <div onClick={() => {navigate(`/profile/${user._id}`); setActiveMenu(null);}} className="flex items-center gap-3 p-2 hover:bg-gray-100 rounded-lg cursor-pointer shadow-sm border border-gray-50 mb-4 transition-transform active:scale-95">
-                        <img src={user.profilePicture ? `http://localhost:5000/assets/${user.profilePicture}` : 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'} alt="" className="w-12 h-12 rounded-full object-cover border border-gray-200" />
+                        <Avatar
+                          picturePath={user.profilePicture}
+                          firstName={user.firstName}
+                          lastName={user.lastName}
+                          size={48}
+                        />
                         <div>
                           <p className="font-bold">{user.firstName} {user.lastName}</p>
                           <p className="text-xs text-gray-500">See your profile</p>

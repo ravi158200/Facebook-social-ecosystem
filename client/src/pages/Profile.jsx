@@ -5,6 +5,7 @@ import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import CreatePost from '../components/CreatePost';
 import Post from '../components/Post';
+import Avatar from '../components/Avatar';
 
 const Profile = () => {
   const { userId } = useParams();
@@ -178,7 +179,13 @@ const Profile = () => {
           <div className="px-8 pb-4 flex flex-col md:flex-row items-center md:items-end justify-between relative mb-4">
             <div className="flex flex-col md:flex-row items-center gap-6 z-10 w-full">
               <div className="relative w-[168px] h-[168px] rounded-full ring-4 ring-white bg-white shadow-lg overflow-hidden shrink-0 -mt-20 group/avatar">
-                <img src={profileUser.profilePicture ? `http://localhost:5000/assets/${profileUser.profilePicture}?${profileUser.updatedAt}` : 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'} alt="" className="w-full h-full object-cover" />
+                <Avatar
+                  picturePath={profileUser.profilePicture}
+                  firstName={profileUser.firstName}
+                  lastName={profileUser.lastName}
+                  size={168}
+                  style={{ width: '100%', height: '100%' }}
+                />
                 {authUser._id === profileUser._id && (
                    <label className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover/avatar:opacity-100 cursor-pointer transition-opacity">
                       <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'profilePicture')} />
@@ -301,7 +308,13 @@ const Profile = () => {
                       className="flex items-center gap-3 p-3 border border-gray-100 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors group"
                     >
                         <div className="w-16 h-16 bg-gray-200 rounded-xl overflow-hidden shrink-0 shadow-sm border border-gray-100">
-                           <img src={friend.profilePicture ? `http://localhost:5000/assets/${friend.profilePicture}` : 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                           <Avatar
+                             picturePath={friend.profilePicture}
+                             firstName={friend.firstName}
+                             lastName={friend.lastName}
+                             size={64}
+                             style={{ width: '100%', height: '100%', borderRadius: '12px' }}
+                           />
                         </div>
                         <div className="flex-1 overflow-hidden">
                            <p className="font-bold text-gray-900 truncate">{friend.firstName} {friend.lastName}</p>

@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Users, Bookmark, MonitorPlay, Calendar, Clock, ShieldCheck, Store } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import Avatar from './Avatar';
 
 const Sidebar = () => {
   const { user } = useContext(AuthContext);
@@ -10,13 +11,21 @@ const Sidebar = () => {
 
   const isActive = (path) => location.pathname === path;
 
+  if (!user) return null;
+
   return (
     <div className="p-4 w-[300px] hidden xl:block overflow-y-auto h-[calc(100vh-60px)] sticky top-[60px]">
       <div 
         onClick={() => navigate(`/profile/${user._id}`)}
         className={`flex items-center gap-3 p-2 hover:bg-gray-200 rounded-xl cursor-pointer transition-all ${isActive(`/profile/${user._id}`) ? 'bg-gray-200 shadow-sm' : ''}`}
       >
-        <img src={user.profilePicture ? `http://localhost:5000/assets/${user.profilePicture}` : 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'} alt="" className="w-9 h-9 rounded-full object-cover border border-gray-100 shadow-sm" />
+        <Avatar
+          picturePath={user.profilePicture}
+          firstName={user.firstName}
+          lastName={user.lastName}
+          size={36}
+          className="border border-gray-100 shadow-sm"
+        />
         <span className="font-bold text-[15px] text-gray-800">{user.firstName} {user.lastName}</span>
       </div>
 

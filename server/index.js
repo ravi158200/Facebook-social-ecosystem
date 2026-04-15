@@ -14,6 +14,7 @@ import postRoutes from './routes/posts.js';
 import uploadRoutes from './routes/upload.js';
 import conversationRoutes from './routes/conversations.js';
 import messageRoutes from './routes/messages.js';
+import storyRoutes from './routes/stories.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -39,6 +40,7 @@ app.use('/api/posts', postRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/conversations', conversationRoutes);
 app.use('/api/messages', messageRoutes);
+app.use('/api/stories', storyRoutes);
 
 // Mongoose Setup
 const PORT = process.env.PORT || 5000;

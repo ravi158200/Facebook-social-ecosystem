@@ -2,6 +2,7 @@ import { useState, useContext, useRef } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Image, Video, Smile, Camera, X } from 'lucide-react';
 import axios from 'axios';
+import Avatar from './Avatar';
 
 const CreatePost = ({ onPostCreated }) => {
   const { user, token } = useContext(AuthContext);
@@ -179,7 +180,12 @@ const CreatePost = ({ onPostCreated }) => {
       )}
 
       <div className="flex gap-3 mb-4">
-        <img src={user.profilePicture ? `http://localhost:5000/assets/${user.profilePicture}` : 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'} alt="" className="w-10 h-10 rounded-full object-cover shrink-0" />
+        <Avatar
+          picturePath={user.profilePicture}
+          firstName={user.firstName}
+          lastName={user.lastName}
+          size={40}
+        />
         <div className="flex-1">
           <button 
             onClick={() => {/* could open modal here if preferred */}}

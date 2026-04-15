@@ -3,6 +3,7 @@ import { AuthContext } from '../context/AuthContext';
 import { ThumbsUp, MessageSquare, Share2, MoreHorizontal } from 'lucide-react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Avatar from './Avatar';
 
 const Post = ({ post }) => {
   const { user, token } = useContext(AuthContext);
@@ -62,7 +63,12 @@ const Post = ({ post }) => {
     <div className="bg-white rounded-xl shadow-sm mt-4 w-full h-fit border border-gray-100 overflow-hidden">
       <div className="p-4 flex items-center justify-between">
         <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate(`/profile/${post.userId}`)}>
-          <img src={post.userPicturePath ? `http://localhost:5000/assets/${post.userPicturePath}` : 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'} alt="" className="w-10 h-10 rounded-full object-cover" />
+          <Avatar
+            picturePath={post.userPicturePath}
+            firstName={post.firstName}
+            lastName={post.lastName}
+            size={40}
+          />
           <div>
             <span className="font-semibold text-[15px]">{post.firstName} {post.lastName}</span>
             <p className="text-[12px] text-gray-400 font-medium">{new Date(post.createdAt).toLocaleDateString()}</p>
@@ -111,7 +117,13 @@ const Post = ({ post }) => {
             <div className="space-y-4 mb-4">
                {comments.map((c, i) => (
                   <div key={i} className="flex gap-2">
-                     <img src={c.userPicturePath ? `http://localhost:5000/assets/${c.userPicturePath}` : 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'} alt="" className="w-8 h-8 rounded-full object-cover shrink-0 mt-1" />
+                     <Avatar
+                       picturePath={c.userPicturePath}
+                       firstName={c.firstName}
+                       lastName={c.lastName}
+                       size={32}
+                       style={{ marginTop: '4px', flexShrink: 0 }}
+                     />
                      <div className="bg-gray-100 p-3 rounded-2xl">
                         <p className="font-bold text-[13px] text-gray-900">{c.firstName} {c.lastName}</p>
                         <p className="text-[14px] text-gray-700 leading-snug">{c.text}</p>
@@ -121,7 +133,7 @@ const Post = ({ post }) => {
             </div>
 
             <form onSubmit={handleComment} className="flex items-center gap-3">
-               <img src={user.profilePicture ? `http://localhost:5000/assets/${user.profilePicture}` : 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'} alt="" className="w-9 h-9 rounded-full object-cover border border-gray-100" />
+               <Avatar picturePath={user.profilePicture} firstName={user.firstName} lastName={user.lastName} size={36} />
                <div className="flex-1 bg-gray-100 rounded-2xl px-4 py-2 flex items-center focus-within:ring-2 ring-blue-100 transition-all">
                   <input 
                     ref={commentInputRef}
